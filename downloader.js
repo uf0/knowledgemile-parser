@@ -35,7 +35,7 @@ services.forEach(function(d,i){
     if(err){console.log(err)}
     else{ 
       var data = JSON.parse(body)
-      fs.writeFile("data/" + d.group + "_" + d.name + ".json", JSON.stringify(data, null, 2), function(err) {
+      fs.writeFile("data/" + d.path + "_" + d.group + "_" + d.name + ".json", JSON.stringify(data, null, 2), function(err) {
         if(err) {
           console.log(err);
           loading++
