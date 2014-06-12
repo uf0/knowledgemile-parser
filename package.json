@@ -22,5 +22,8 @@
   "license": "GNU GPLv3",
   "bugs": {
     "url": "https://github.com/uf0/knowledgemile-parser/issues"
+  },
+  "dependencies": {
+    "xmldom": "~0.1.19"
   }
 }
