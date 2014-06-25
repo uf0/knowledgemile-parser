@@ -2,20 +2,39 @@ var fs = require('fs');
 var d3 = require('d3');
 var xmldom = require('xmldom');
 
-var file_name = "14_environment_safety_flowers.json"
- 
-var data = JSON.parse(fs.readFileSync('data/final/' + file_name, encoding='utf8'));
- 
+var services = [
+  "8_environment_safety_smoking.json",
+  "9_environment_safety_danger.json",
+  "10_environment_safety_trashbins.json",
+  "11_environment_safety_resting.json",
+  "12_environment_safety_wheelchair.json",
+  "13_environment_safety_plants.json",
+  "14_environment_safety_flowers.json",
+  "16_environment_safety_cctv.json",
+  "bird_15_environment_safety_animals.json",
+  "cat_15_environment_safety_animals.json",
+  "dog_15_environment_safety_animals.json",
+  "other_15_environment_safety_animals.json"
+]
+
+var s = services[11]
+
 var width = 1118,
-    height = 49;
+    height = 111;
+    //height = 49
+    //height = 76
+
+var data = JSON.parse(fs.readFileSync('data/final/' + s, encoding='utf8'));
+ 
  
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height)
+    .append("g")
 
 
 var x = d3.scale.ordinal()
-    .rangeRoundBands([0, width], .1);
+    .rangeRoundBands([0, width], .1, 0);
 
 var y = d3.scale.linear()
     .range([height, 0]);
@@ -31,11 +50,10 @@ svg.selectAll(".bar")
   .attr("fill", "#f00")
   .attr("x", function(d) { return x(d.key); })
   .attr("y", function(d) { return y(d.value); })
-  .attr("height", function(d) { return height - y(d.value); })
+  .attr("height", function(d) { return (height - y(d.value)); })
   .attr("width", x.rangeBand());
-  
-// get a reference to our SVG object and add the SVG NS  
+
 var svgGraph = d3.select('svg')
   .attr('xmlns', 'http://www.w3.org/2000/svg');
 var svgXML = (new xmldom.XMLSerializer()).serializeToString(svgGraph[0][0]);
-fs.writeFile('data/graph.svg', svgXML);
+fs.writeFileSync('data/final/graph/' + s + '.svg', svgXML);

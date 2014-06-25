@@ -14,8 +14,8 @@ data.features.forEach(function(d){
 var newData = d3.nest().key(function(d){return d.properties.value}).entries(data.features)
 
 newData.forEach(function(d){
-	var minLat = 52.346357
-	var maxLat =  52.354208
+	var minLat = 52.344052
+	var maxLat =  52.372817
 
 	var diffLat = maxLat - minLat
 

@@ -1,5 +1,4 @@
 var fs = require('fs')
-var d3 = require('d3')
 
 var services = [
   {path: "8", group: "environment_safety", name : "smoking"}, 
@@ -17,39 +16,14 @@ services.forEach(function(s){
 
 	var file_name = s.path + "_" + s.group + "_" + s.name + ".json";
 
-	var minLat = 52.344052
-	var maxLat =  52.372817
-	
-
-	var diffLat = maxLat - minLat
-
-	var stepLat = diffLat/50
-
-	var domain = []
-	var output = {}
-
-	d3.range(50).forEach(function(d){
-		domain.push(minLat+(d*stepLat))
-		output[d.toString()] = 0
-	})
-
-	domain.reverse()
-
-	var scale = d3.scale.linear().domain(domain).range(d3.range(50))
-
 	var data = JSON.parse(fs.readFileSync('data/' + file_name, encoding='utf8'));
 
 	data.features.forEach(function(d){
-		var value = +d.geometry.coordinates[1]
-		var chunk = Math.floor(scale(value)).toString()
-		if(chunk<=50 && chunk>=0){
-				output[chunk]++
-		}
+		d.geometry.coordinates[0] = +d.geometry.coordinates[0]
+		d.geometry.coordinates[1] = +d.geometry.coordinates[1]
 	})
 
-	output = d3.entries(output)
-
-	fs.writeFile("data/final/" + file_name, JSON.stringify(output, null, 2));
+	fs.writeFileSync("data/test/" + file_name, JSON.stringify(data, null, 2));
 
 	console.log(file_name + " saved!")
 

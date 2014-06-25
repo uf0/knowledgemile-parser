@@ -28,7 +28,7 @@ var tot = services.length
 
 services.forEach(function(d,i){
   var options = {
-    url: 'http://95.85.12.5/datalist/' + d.path
+    url: 'http://measuringamsterdam.nl/datalist/' + d.path
   };
 
   request(options, function(err, res, body) {

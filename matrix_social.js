@@ -34,7 +34,21 @@ nested.forEach(function(d){
 	})
 })
 
-fs.writeFile("data/final/" + file_name, JSON.stringify(output, null, 2), function(err) {
+output = output.filter(function(d){return d.target != "notouch"})
+console.log(output)
+var scale = d3.scale.linear()
+var domain = d3.extent(output, function(d){return d.value})
+var range = [30,100]
+
+scale.domain(domain).range(range)
+
+output.forEach(function(d){
+	d.value = scale(d.value)
+})
+
+output = d3.tsv.format(output)
+
+fs.writeFile("data/final/" + file_name + ".tsv", output, function(err) {
 	if(err) {
 		console.log(err);
 	}else{

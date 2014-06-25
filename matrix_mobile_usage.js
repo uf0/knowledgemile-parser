@@ -3,6 +3,22 @@ var d3 = require('d3')
 
 var file_name = "7_mobile_device_usage_usage.json"
 
+var device_dict = {
+	other: 0,
+	tablet : 1,
+	smartphone : 2,
+	laptop : 3
+}
+
+var action_dict = {
+	driving : 1,
+	walking : 2,
+	cycling : 3,
+	sitting : 4,
+	standingstil : 5,
+	other : 6
+}
+
 var data = JSON.parse(fs.readFileSync('data/' + file_name, encoding='utf8'));
 var output = []
 
@@ -23,14 +39,16 @@ nested.forEach(function(d){
 		var target = e.key
 		var value = e.values.length
 		var elm = {}
-		elm.source = source;
-		elm.target = target;
+		elm.source = device_dict[source];
+		elm.target = action_dict[target];
 		elm.value = value;
 		output.push(elm)
 	})
 })
 
-fs.writeFile("data/final/" + file_name, JSON.stringify(output, null, 2), function(err) {
+var output = d3.tsv.format(output)
+
+fs.writeFile("data/final/" + file_name + ".tsv", output, function(err) {
 	if(err) {
 		console.log(err);
 	}else{
